@@ -3,6 +3,7 @@ package com.uevitondev.deliveryapp.config;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import com.uevitondev.deliveryapp.exceptions.ConvertRSAKeyException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,13 +47,12 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .headers(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
-                .oauth2ResourceServer(oauth2 ->
-                        oauth2.jwt(Customizer.withDefaults()))
-                .cors(httpSecurityCorsConfigurer ->
-                        httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+                .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/auth/**", "/api/h2-console/**", "/api/test/public", "/api/stores/**", "/api/products/**").permitAll()
+                        auth.requestMatchers("/api/auth/**", "/api/h2-console/**", "/api/test/public",
+                                        "/api/stores/**", "/api/products/**").permitAll()
                                 .requestMatchers("/api/test/admin").hasAuthority("SCOPE_ROLE_ADMIN")
                                 .anyRequest().authenticated())
                 .build();
@@ -83,7 +83,7 @@ public class SecurityConfig {
                     new X509EncodedKeySpec(Base64.getDecoder().decode(rsaPublicKey));
             return (RSAPublicKey) keyFactory.generatePublic(publicKeySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new RuntimeException(e);
+            throw new ConvertRSAKeyException();
         }
     }
 
@@ -95,7 +95,7 @@ public class SecurityConfig {
                     new PKCS8EncodedKeySpec(Base64.getDecoder().decode(rsaPrivateKey));
             return (RSAPrivateKey) keyFactory.generatePrivate(privateKeySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new RuntimeException(e);
+            throw new ConvertRSAKeyException();
         }
     }
 
