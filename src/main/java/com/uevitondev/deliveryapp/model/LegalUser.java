@@ -8,8 +8,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "tb_legal_person")
-public class LegalPerson extends User {
+@Table(name = "tb_legaluser")
+@PrimaryKeyJoinColumn(name = "user_id")
+public class LegalUser extends User {
     @Column(nullable = false)
     private String fantasyName;
 
@@ -19,10 +20,10 @@ public class LegalPerson extends User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private final Set<Address> address = new HashSet<>();
 
-    public LegalPerson() {
+    public LegalUser() {
     }
 
-    public LegalPerson(Long id, String username, String email, String password, TypeUser typeUser, LocalDateTime createdAt) {
+    public LegalUser(Long id, String username, String email, String password, TypeUser typeUser, LocalDateTime createdAt) {
         super(id, username, email, password, typeUser, createdAt);
     }
 
