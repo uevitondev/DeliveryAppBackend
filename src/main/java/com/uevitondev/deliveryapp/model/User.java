@@ -11,6 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tb_user")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
