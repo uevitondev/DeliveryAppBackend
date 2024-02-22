@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -36,7 +37,7 @@ public class CategoryService {
 
     @Transactional
     public CategoryDTO insertNewCategory(CategoryDTO dto) {
-        Category category = new Category(null, dto.getName());
+        Category category = new Category(null, dto.getName(), LocalDateTime.now());
         category = categoryRepository.save(category);
 
         return new CategoryDTO(category);
@@ -47,6 +48,7 @@ public class CategoryService {
         try {
             Category category = categoryRepository.getReferenceById(id);
             category.setName(dto.getName());
+            category.setUpdateAt(LocalDateTime.now());
             category = categoryRepository.save(category);
             return new CategoryDTO(category);
         } catch (EntityNotFoundException e) {

@@ -24,11 +24,6 @@ public class OrderController {
         return ResponseEntity.ok().body(orderService.findAllOrders());
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<List<OrderDTO>> findAllOrdersByUser() {
-        return ResponseEntity.ok().body(orderService.findAllOrdersByUser());
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<OrderDTO> findOrderById(@PathVariable Long id) {
         return ResponseEntity.ok().body(orderService.findOrderById(id));

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -48,6 +49,7 @@ public class StoreService {
         try {
             Store store = storeRepository.getReferenceById(id);
             store.setName(dto.getName());
+            store.setUpdateAt(LocalDateTime.now());
             store = storeRepository.save(store);
             return new StoreDTO(store);
         } catch (EntityNotFoundException e) {

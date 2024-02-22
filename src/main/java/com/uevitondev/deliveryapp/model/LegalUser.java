@@ -16,9 +16,8 @@ public class LegalUser extends User {
 
     @Column(nullable = false)
     private String cnpj;
-
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private final Set<Address> address = new HashSet<>();
+    private final Set<Store> stores = new HashSet<>();
 
     public LegalUser() {
     }
@@ -43,8 +42,8 @@ public class LegalUser extends User {
         this.cnpj = cnpj;
     }
 
-    public Set<Address> getAddress() {
-        return address;
+    public Set<Store> getStores() {
+        return stores;
     }
 
     @Override

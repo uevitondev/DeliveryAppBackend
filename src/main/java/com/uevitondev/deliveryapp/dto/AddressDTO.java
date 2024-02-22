@@ -4,16 +4,17 @@ import com.uevitondev.deliveryapp.model.Address;
 
 import java.io.Serializable;
 
-public class AddressResponseDTO implements Serializable {
+public class AddressDTO implements Serializable {
     private Long id;
     private String zipCode;
     private String uf;
     private String city;
     private String district;
     private String street;
+    private String complement;
     private Integer number;
 
-    public AddressResponseDTO(Long id, String zipCode, String uf, String city, String district, String street, Integer number) {
+    public AddressDTO(Long id, String zipCode, String uf, String city, String district, String street, Integer number) {
         this.id = id;
         this.zipCode = zipCode;
         this.uf = uf;
@@ -23,13 +24,14 @@ public class AddressResponseDTO implements Serializable {
         this.number = number;
     }
 
-    public AddressResponseDTO(Address address) {
+    public AddressDTO(Address address) {
         this.id = address.getId();
         this.zipCode = address.getZipCode();
         this.uf = address.getUf();
         this.city = address.getCity();
         this.district = address.getDistrict();
         this.street = address.getStreet();
+        this.complement = address.getComplement();
         this.number = address.getNumber();
     }
 
@@ -79,6 +81,14 @@ public class AddressResponseDTO implements Serializable {
 
     public void setStreet(String street) {
         this.street = street;
+    }
+
+    public String getComplement() {
+        return complement;
+    }
+
+    public void setComplement(String complement) {
+        this.complement = complement;
     }
 
     public Integer getNumber() {

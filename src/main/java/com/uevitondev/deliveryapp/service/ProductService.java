@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 public class ProductService {
 
@@ -51,8 +53,12 @@ public class ProductService {
 
     @Transactional
     public ProductDTO insertNewProduct(ProductDTO dto) {
-        Product product = productRepository.save(convertProductDtoToProduct(dto));
-        return new ProductDTO(product);
+        try {
+            Product product = productRepository.save(convertProductDtoToProduct(dto));
+            return new ProductDTO(product);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException();
+        }
     }
 
     public Product convertProductDtoToProduct(ProductDTO dto) {
@@ -75,20 +81,21 @@ public class ProductService {
 
     @Transactional
     public ProductDTO updateProductById(Long id, ProductDTO dto) {
-
-        Category category = categoryRepository.findById(dto.getCategoryId())
-                .orElseThrow(ResourceNotFoundException::new);
-
-        Store store = storeRepository.findById(dto.getStoreId())
-                .orElseThrow(ResourceNotFoundException::new);
-
         try {
+            Category category = categoryRepository.findById(dto.getCategoryId())
+                    .orElseThrow(ResourceNotFoundException::new);
+            Store store = storeRepository.findById(dto.getStoreId())
+                    .orElseThrow(ResourceNotFoundException::new);
+
+
             Product product = productRepository.getReferenceById(id);
             product.setName(dto.getName());
             product.setDescription(dto.getDescription());
             product.setPrice(dto.getPrice());
             product.setCategory(category);
             product.setStore(store);
+            product.setUpdateAt(LocalDateTime.now());
+            product = productRepository.save(product);
 
             return new ProductDTO(product);
         } catch (EntityNotFoundException e) {

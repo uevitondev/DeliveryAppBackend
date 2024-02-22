@@ -16,11 +16,11 @@ public class OrderItem implements Serializable {
     private String observation;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     public OrderItem() {
@@ -29,7 +29,6 @@ public class OrderItem implements Serializable {
     public OrderItem(Long id, Integer quantity, String observation, Product product, Order order) {
         this.id = id;
         this.quantity = quantity;
-        this.total = product.getPrice() * quantity;
         this.observation = observation;
         this.product = product;
         this.order = order;
@@ -56,8 +55,8 @@ public class OrderItem implements Serializable {
         return total;
     }
 
-    public void setTotal() {
-        this.total = this.product.getPrice() * this.quantity;
+    public void setTotal(Double total) {
+        this.total = total;
     }
 
     public String getObservation() {
@@ -83,6 +82,11 @@ public class OrderItem implements Serializable {
     public void setOrder(Order order) {
         this.order = order;
     }
+
+    public void calculateOrderItemTotal() {
+        this.total = this.product.getPrice() * this.quantity;
+    }
+
 
     @Override
     public boolean equals(Object o) {

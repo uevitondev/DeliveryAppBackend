@@ -6,6 +6,7 @@ import com.uevitondev.deliveryapp.enums.TypeUser;
 import com.uevitondev.deliveryapp.exceptions.DatabaseException;
 import com.uevitondev.deliveryapp.exceptions.ResourceNotFoundException;
 import com.uevitondev.deliveryapp.model.ConfirmationToken;
+import com.uevitondev.deliveryapp.model.PhysicalUser;
 import com.uevitondev.deliveryapp.model.User;
 import com.uevitondev.deliveryapp.repository.RoleRepository;
 import com.uevitondev.deliveryapp.repository.UserRepository;
@@ -44,7 +45,7 @@ public class AuthService {
     public ResponseLoginDTO signup(UserRegistrationDTO dto) {
         try {
             var role = roleRepository.findByName("ROLE_CLIENT").orElseThrow(ResourceNotFoundException::new);
-            User user = new User();
+            PhysicalUser user = new PhysicalUser();
             user.setEmail(dto.getEmail());
             user.setPassword(passwordEncoder.encode(dto.getPassword()));
             user.setTypeUser(TypeUser.PHYSICAL);

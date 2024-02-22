@@ -1,5 +1,7 @@
 package com.uevitondev.deliveryapp.controller;
 
+import com.uevitondev.deliveryapp.dto.AddressDTO;
+import com.uevitondev.deliveryapp.dto.OrderDTO;
 import com.uevitondev.deliveryapp.dto.UserRequestDTO;
 import com.uevitondev.deliveryapp.dto.UserResponseDTO;
 import com.uevitondev.deliveryapp.service.UserService;
@@ -48,6 +50,16 @@ public class UserController {
     public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/orders")
+    public ResponseEntity<List<OrderDTO>> getUserOrders() {
+        return ResponseEntity.ok().body(userService.findUserOrders());
+    }
+
+    @GetMapping("/addresses")
+    public ResponseEntity<List<AddressDTO>> getUserAddresses() {
+        return ResponseEntity.ok().body(userService.findUserAddresses());
     }
 
 

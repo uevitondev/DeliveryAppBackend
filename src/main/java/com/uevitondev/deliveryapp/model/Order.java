@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -14,31 +15,30 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime createdAt;
-    private LocalDateTime updateAt;
-
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
     private Double total;
-
+    private LocalDateTime createdAt;
+    private LocalDateTime updateAt;
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
+    @JoinColumn(name = "user_id", nullable = false)
+    private PhysicalUser user;
     @ManyToOne
-    @JoinColumn(name = "store_id")
+    @JoinColumn(name = "store_id", nullable = false)
     private Store store;
-
+    @ManyToOne
+    @JoinColumn(name = "address_id", nullable = false)
+    private Address address;
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private final Set<OrderItem> orderItems = new HashSet<>();
 
     public Order() {
     }
 
-    public Order(Long id, LocalDateTime createdAt, OrderStatus status) {
+    public Order(Long id, OrderStatus status, LocalDateTime createdAt) {
         this.id = id;
-        this.createdAt = createdAt;
         this.status = status;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -47,6 +47,22 @@ public class Order implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -65,31 +81,11 @@ public class Order implements Serializable {
         this.updateAt = updateAt;
     }
 
-    public OrderStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(OrderStatus status) {
-        this.status = status;
-    }
-
-    public Double getTotal() {
-        return total;
-    }
-
-    public void setTotal() {
-        double sum = 0.0;
-        for (OrderItem orderItem : getOrderItems()) {
-            sum += orderItem.getTotal();
-        }
-        this.total = sum;
-    }
-
-    public User getUser() {
+    public PhysicalUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(PhysicalUser user) {
         this.user = user;
     }
 
@@ -101,7 +97,36 @@ public class Order implements Serializable {
         this.store = store;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     public Set<OrderItem> getOrderItems() {
         return orderItems;
+    }
+
+    public void calculateOrderTotal() {
+        double sum = 0.0;
+        for (OrderItem orderItem : getOrderItems()) {
+            sum += orderItem.getTotal();
+        }
+        this.total = sum;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

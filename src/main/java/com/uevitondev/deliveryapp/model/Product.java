@@ -3,6 +3,7 @@ package com.uevitondev.deliveryapp.model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -16,24 +17,26 @@ public class Product implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String description;
     private Double price;
-
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+    private LocalDateTime updateAt;
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
+    @ManyToOne
+    @JoinColumn(name = "store_id", nullable = false)
     private Store store;
 
     public Product() {
     }
 
-    public Product(Long id, String name, String imageUrl, String description, Double price) {
+    public Product(Long id, String name, String imageUrl, String description, Double price, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.description = description;
         this.price = price;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -74,6 +77,22 @@ public class Product implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(LocalDateTime updateAt) {
+        this.updateAt = updateAt;
     }
 
     public Category getCategory() {

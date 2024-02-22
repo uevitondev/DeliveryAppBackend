@@ -51,8 +51,8 @@ public class SecurityConfig {
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/auth/**", "/api/h2-console/**", "/api/test/public",
-                                        "/api/stores/**", "/api/products/**").permitAll()
+                        auth.requestMatchers("/api/auth/**", "/api/h2-console/**", "/api/doc/**",
+                                        "/api/test/public", "/api/stores/**", "/api/products/**").permitAll()
                                 .requestMatchers("/api/test/admin").hasAuthority("SCOPE_ROLE_ADMIN")
                                 .anyRequest().authenticated())
                 .build();

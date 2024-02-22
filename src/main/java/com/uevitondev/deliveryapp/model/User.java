@@ -34,6 +34,13 @@ public class User implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private final Set<Role> roles = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "tb_user_address",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "address_id")
+    )
+    private final Set<Address> addresses = new HashSet<>();
 
     public User() {
     }
@@ -114,6 +121,10 @@ public class User implements Serializable {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public Set<Address> getAddresses() {
+        return addresses;
     }
 
     @Override

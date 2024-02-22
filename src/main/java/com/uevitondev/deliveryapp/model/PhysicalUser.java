@@ -18,7 +18,7 @@ public class PhysicalUser extends User {
     @Column(nullable = false)
     private String cpf;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private final Set<Address> address = new HashSet<>();
+    private final Set<Order> orders = new HashSet<>();
 
     public PhysicalUser() {
     }
@@ -51,8 +51,8 @@ public class PhysicalUser extends User {
         this.cpf = cpf;
     }
 
-    public Set<Address> getAddress() {
-        return address;
+    public Set<Order> getOrders() {
+        return orders;
     }
 
     @Override

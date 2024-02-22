@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 
-public class OrderItemCartDTO implements Serializable {
+public class CartItemDTO implements Serializable {
     @NotNull(message = "productId: is mandatory")
     private Long productId;
     @NotNull(message = "quantity: is mandatory")
@@ -13,10 +13,10 @@ public class OrderItemCartDTO implements Serializable {
     private Integer quantity;
     private String observation;
 
-    public OrderItemCartDTO() {
+    public CartItemDTO() {
     }
 
-    public OrderItemCartDTO(Long productId, Integer quantity, String observation) {
+    public CartItemDTO(Long productId, Integer quantity, String observation) {
         this.productId = productId;
         this.quantity = quantity;
         this.observation = observation;

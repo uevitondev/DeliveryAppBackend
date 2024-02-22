@@ -29,7 +29,7 @@ public class AuthController {
     }
 
 
-    @GetMapping("/signin")
+    @PostMapping("/signin")
     public ResponseEntity<ResponseLoginDTO> signin(Authentication authentication) {
         return ResponseEntity.ok().body(authService.signin(authentication));
     }

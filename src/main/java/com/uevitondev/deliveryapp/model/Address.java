@@ -3,6 +3,7 @@ package com.uevitondev.deliveryapp.model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -17,11 +18,11 @@ public class Address implements Serializable {
     private String city;
     private String district;
     private String street;
+    private String complement;
     private Integer number;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+    private LocalDateTime updateAt;
 
     public Address() {
     }
@@ -85,6 +86,14 @@ public class Address implements Serializable {
         this.street = street;
     }
 
+    public String getComplement() {
+        return complement;
+    }
+
+    public void setComplement(String complement) {
+        this.complement = complement;
+    }
+
     public Integer getNumber() {
         return number;
     }
@@ -93,12 +102,20 @@ public class Address implements Serializable {
         this.number = number;
     }
 
-    public User getUser() {
-        return user;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(LocalDateTime updateAt) {
+        this.updateAt = updateAt;
     }
 
     @Override

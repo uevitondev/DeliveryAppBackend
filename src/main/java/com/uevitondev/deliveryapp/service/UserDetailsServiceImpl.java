@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String username = authentication.getName();
-            return userRepository.findByEmail(username).orElseThrow(() -> new AuthorizationException("Access denied"));
+            return userRepository.findByUsername(username).orElseThrow(() -> new AuthorizationException("Access denied"));
         }
         throw new AuthorizationException("Access denied");
     }

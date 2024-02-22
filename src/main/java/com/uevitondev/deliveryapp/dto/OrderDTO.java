@@ -16,19 +16,17 @@ public class OrderDTO implements Serializable {
     private Double total;
     private Long userId;
     private Long storeId;
+    private Long addressId;
     private final Set<OrderItemDTO> orderItems = new HashSet<>();
 
     public OrderDTO() {
     }
 
-    public OrderDTO(Long id, LocalDateTime createdAt, LocalDateTime updateAt, OrderStatus status, Double total, Long userId, Long storeId) {
+    public OrderDTO(Long id, LocalDateTime createdAt, LocalDateTime updateAt, OrderStatus status) {
         this.id = id;
         this.createdAt = createdAt;
         this.updateAt = updateAt;
         this.status = status;
-        this.total = total;
-        this.userId = userId;
-        this.storeId = storeId;
     }
 
     public OrderDTO(Order order) {
@@ -39,6 +37,7 @@ public class OrderDTO implements Serializable {
         this.total = order.getTotal();
         this.userId = order.getUser().getId();
         this.storeId = order.getStore().getId();
+        this.addressId = order.getAddress().getId();
         order.getOrderItems().forEach(orderItem -> this.orderItems.add(new OrderItemDTO(orderItem)));
     }
 
@@ -97,6 +96,14 @@ public class OrderDTO implements Serializable {
 
     public void setStoreId(Long storeId) {
         this.storeId = storeId;
+    }
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
     }
 
     public Set<OrderItemDTO> getOrderItems() {

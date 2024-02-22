@@ -11,7 +11,6 @@ import java.util.Set;
 
 public class CategoryDTO implements Serializable {
     private Long id;
-
     @NotBlank(message = "invalid: name is empty")
     @NotNull(message = "invalid: name is null")
     private String name;

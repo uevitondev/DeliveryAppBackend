@@ -12,15 +12,18 @@ public class ShoppingCartDTO implements Serializable {
 
     @NotNull(message = "pizzeriaId: is mandatory")
     private Long pizzeriaId;
+    @NotNull(message = "addressId: is mandatory")
+    private Long addressId;
 
     @NotEmpty(message = "cartItems: cannot be empty")
-    private final Set<@Valid OrderItemCartDTO> cartItems = new HashSet<>();
+    private final Set<@Valid CartItemDTO> cartItems = new HashSet<>();
 
     public ShoppingCartDTO() {
     }
 
-    public ShoppingCartDTO(Long pizzeriaId) {
+    public ShoppingCartDTO(Long pizzeriaId, Long addressId) {
         this.pizzeriaId = pizzeriaId;
+        this.addressId = addressId;
     }
 
     public Long getPizzeriaId() {
@@ -31,7 +34,15 @@ public class ShoppingCartDTO implements Serializable {
         this.pizzeriaId = pizzeriaId;
     }
 
-    public Set<OrderItemCartDTO> getCartItems() {
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
+    }
+
+    public Set<CartItemDTO> getCartItems() {
         return cartItems;
     }
 }
